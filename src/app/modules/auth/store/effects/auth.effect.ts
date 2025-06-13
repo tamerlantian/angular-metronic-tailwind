@@ -5,14 +5,16 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AuthRepository } from '../../repositories/auth.repository';
-import { loginFailure, loginRequest, loginSuccess } from '../actions/login.action';
+import { loginFailure, loginRequest, loginSuccess, logout } from '../actions/login.action';
 import { LOCALSTORAGE_KEYS } from '@app/core/constants/localstorage-keys.constant';
 import { environment } from '@environments/environment';
+import { AlertaService } from '@app/common/services/alerta.service';
 
 @Injectable()
 export class AuthEffects {
   private actions$ = inject(Actions);
   private cookieService = inject(CookieService);
+  private alertaService = inject(AlertaService);
   private authRepository = inject(AuthRepository);
   private router = inject(Router);
 
@@ -37,6 +39,8 @@ export class AuthEffects {
               response['refresh-token'],
               cookieOptions
             );
+
+            this.alertaService.mostrarExito('Inicio de sesión exitoso', 'Bienvenido');
 
             return loginSuccess({ response });
           }),
@@ -65,6 +69,20 @@ export class AuthEffects {
         tap(({ error }) => {
           // Aquí podrías mostrar un mensaje de error o realizar otras acciones
           console.error('Error de autenticación:', error);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  logout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(logout),
+        tap(() => {
+          this.cookieService.delete(LOCALSTORAGE_KEYS.USER);
+          this.cookieService.delete(LOCALSTORAGE_KEYS.AUTH_TOKEN);
+          this.cookieService.delete(LOCALSTORAGE_KEYS.REFRESH_TOKEN);
+          this.router.navigate(['/auth/login']);
         })
       ),
     { dispatch: false }

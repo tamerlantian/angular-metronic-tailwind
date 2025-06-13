@@ -29,14 +29,6 @@ export class AuthRepository {
     );
   }
 
-  // logout() {
-  //   localStorage.clear();
-  //   this.tokenService.eliminar();
-  //   removeCookie("usuario", { path: "/" });
-  //   removeCookie("contenedor", { path: "/" });
-  //   window.location.href = "/auth/login ";
-  // }
-
   // recuperarClave(email: string) {
   //   return this.http.post(
   //     `${environment.url_api}/seguridad/usuario/cambio-clave-solicitar/`,
