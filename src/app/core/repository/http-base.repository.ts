@@ -1,20 +1,18 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { SubdominioService } from '@app/core/services/subdominio.service';
 import { Observable } from 'rxjs';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class HttpRepository {
-  private subdominioService = inject(SubdominioService);
+export class HttpBaseRepository {
   private httpClient = inject(HttpClient);
   private baseUrl: string;
 
   constructor() {
-    this.subdominioService.getSubdominioUrl().subscribe(urlApi => {
-      this.baseUrl = urlApi;
-    });
+    // Usa directamente la URL base sin subdominio
+    this.baseUrl = environment.api_base;
   }
 
   // Método GET para listas

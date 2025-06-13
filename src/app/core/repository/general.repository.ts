@@ -1,93 +1,143 @@
 import { HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { QueryParams, RespuestaApi } from '../interfaces/api.interface';
-import { HttpRepository } from './http.repository';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { QueryParams, RespuestaApi } from '../interfaces/api.interface';
+import { SubdominioService } from '../services/subdominio.service';
+import { HttpBaseRepository } from './http-base.repository';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GeneralRepository {
-  private httpRepository = inject(HttpRepository);
+  private httpBase = inject(HttpBaseRepository);
+  private subdominioService = inject(SubdominioService);
 
   /**
-   * Realiza una consulta GET a la API
+   * Realiza una consulta GET a la API con el subdominio actual
    * @param endpoint Ruta del endpoint a consultar
    * @param queryParams Parámetros de consulta opcionales
    * @returns Observable con la respuesta tipada
    */
   get<T>(endpoint: string, queryParams: QueryParams = {}): Observable<RespuestaApi<T>> {
     const params = this.buildHttpParams(queryParams);
-    return this.httpRepository.get<RespuestaApi<T>>(endpoint, params);
+    return this.getWithSubdominio<RespuestaApi<T>>(endpoint, params);
   }
 
   /**
-   * Realiza una consulta GET para obtener un único recurso
+   * Realiza una consulta GET para obtener un único recurso con el subdominio actual
    * @param endpoint Ruta del endpoint a consultar
    * @param id Identificador del recurso
    * @returns Observable con la respuesta tipada
    */
   getById<T>(endpoint: string, id: string | number): Observable<T> {
-    return this.httpRepository.get<T>(`${endpoint}/${id}`);
+    return this.getWithSubdominio<T>(`${endpoint}/${id}`);
   }
 
   /**
-   * Crea un nuevo recurso mediante POST
+   * Crea un nuevo recurso mediante POST con el subdominio actual
    * @param endpoint Ruta del endpoint
    * @param data Datos a enviar
    * @returns Observable con la respuesta tipada
    */
   create<T>(endpoint: string, data: any): Observable<T> {
-    return this.httpRepository.post<T>(endpoint, data);
+    return this.postWithSubdominio<T>(endpoint, data);
   }
 
   /**
-   * Actualiza un recurso existente mediante PUT
+   * Actualiza un recurso existente mediante PUT con el subdominio actual
    * @param endpoint Ruta del endpoint
    * @param id Identificador del recurso
    * @param data Datos a actualizar
    * @returns Observable con la respuesta tipada
    */
   update<T>(endpoint: string, id: string | number, data: any): Observable<T> {
-    return this.httpRepository.put<T>(`${endpoint}/${id}`, data);
+    return this.putWithSubdominio<T>(`${endpoint}/${id}`, data);
   }
 
   /**
-   * Actualiza parcialmente un recurso mediante PATCH
+   * Actualiza parcialmente un recurso mediante PATCH con el subdominio actual
    * @param endpoint Ruta del endpoint
    * @param id Identificador del recurso
    * @param data Datos a actualizar
    * @returns Observable con la respuesta tipada
    */
   patch<T>(endpoint: string, id: string | number, data: any): Observable<T> {
-    return this.httpRepository.patch<T>(`${endpoint}/${id}`, data);
+    return this.patchWithSubdominio<T>(`${endpoint}/${id}`, data);
   }
 
   /**
-   * Elimina un recurso mediante DELETE
+   * Elimina un recurso mediante DELETE con el subdominio actual
    * @param endpoint Ruta del endpoint
    * @param id Identificador del recurso
    * @returns Observable con la respuesta
    */
-  delete(endpoint: string, id: string | number): Observable<any> {
-    return this.httpRepository.delete(`${endpoint}/${id}`, {});
+  delete<T>(endpoint: string, id: string | number): Observable<T> {
+    return this.deleteWithSubdominio<T>(`${endpoint}/${id}`);
   }
 
   /**
-   * Construye los parámetros HTTP a partir de un objeto de consulta
-   * @param queryParams Objeto con los parámetros de consulta
-   * @returns HttpParams configurados
-   * @private
+   * Construye los parámetros HTTP a partir de los parámetros de consulta
+   * @param queryParams Parámetros de consulta
+   * @returns HttpParams
    */
   private buildHttpParams(queryParams: QueryParams): HttpParams {
     let params = new HttpParams();
-
-    Object.entries(queryParams).forEach(([key, value]) => {
-      if (value !== null && value !== undefined) {
-        params = params.append(key, value.toString());
+    
+    Object.keys(queryParams).forEach(key => {
+      if (queryParams[key] !== null && queryParams[key] !== undefined) {
+        params = params.append(key, queryParams[key].toString());
       }
     });
-
+    
     return params;
+  }
+
+  // Métodos privados que utilizan el subdominio
+
+  private getWithSubdominio<T>(endpoint: string, params?: HttpParams): Observable<T> {
+    return this.subdominioService.getSubdominioUrl().pipe(
+      switchMap(subdominioUrl => {
+        const url = `${subdominioUrl}/${endpoint}`;
+        return this.httpBase.get<T>(url, params);
+      })
+    );
+  }
+
+  private postWithSubdominio<T>(endpoint: string, data: any): Observable<T> {
+    return this.subdominioService.getSubdominioUrl().pipe(
+      switchMap(subdominioUrl => {
+        const url = `${subdominioUrl}/${endpoint}`;
+
+        return this.httpBase.post<T>(url, data);
+      })
+    );
+  }
+
+  private putWithSubdominio<T>(endpoint: string, data: any): Observable<T> {
+    return this.subdominioService.getSubdominioUrl().pipe(
+      switchMap(subdominioUrl => {
+        const url = `${subdominioUrl}/${endpoint}`;
+        return this.httpBase.put<T>(url, data);
+      })
+    );
+  }
+
+  private patchWithSubdominio<T>(endpoint: string, data: any): Observable<T> {
+    return this.subdominioService.getSubdominioUrl().pipe(
+      switchMap(subdominioUrl => {
+        const url = `${subdominioUrl}/${endpoint}`;
+        return this.httpBase.patch<T>(url, data);
+      })
+    );
+  }
+
+  private deleteWithSubdominio<T>(endpoint: string): Observable<T> {
+    return this.subdominioService.getSubdominioUrl().pipe(
+      switchMap(subdominioUrl => {
+        const url = `${subdominioUrl}/${endpoint}`;
+        return this.httpBase.delete(url, {});
+      })
+    );
   }
 }

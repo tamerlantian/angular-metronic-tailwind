@@ -1,17 +1,18 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InputComponent } from '@app/common/components/ui/form/input/input.component';
+import { LabelComponent } from '@app/common/components/ui/form/label/label.component';
+import { Store } from '@ngrx/store';
+import { loginRequest } from '../../store/actions/login.action';
 import { RouterLink } from '@angular/router';
-import { InputComponent } from '../../../../common/components/ui/form/input/input.component';
-import { LabelComponent } from '../../../../common/components/ui/form/label/label.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
+    // CommonModule,
     RouterLink,
+    ReactiveFormsModule,
     InputComponent,
     LabelComponent,
   ],
@@ -20,7 +21,24 @@ import { LabelComponent } from '../../../../common/components/ui/form/label/labe
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class LoginComponent {
-  // private tokenService = inject(TokenService);
+  private store = inject(Store);
+
+  public formularioLogin = new FormGroup({
+    username: new FormControl('', [Validators.email, Validators.required]),
+    password: new FormControl('', [Validators.required]),
+  });
+
+  login() {
+    this.store.dispatch(
+      loginRequest({
+        credentials: {
+          username: this.formularioLogin.value.username,
+          password: this.formularioLogin.value.password,
+        },
+      })
+    );
+  }
+  // private tokenService = inject(TokenService)
   // private authService = inject(AuthService);
   // private _router = inject(Router);
   // turnstileToken: string = '';

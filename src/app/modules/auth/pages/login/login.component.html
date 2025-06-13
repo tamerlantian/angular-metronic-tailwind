@@ -2,7 +2,12 @@
   class="flex h-[100vh] justify-center items-center p-8 lg:p-10 order-2 lg:order-1 login-container"
 >
   <div class="card max-w-[400px] w-full">
-    <form class="card-body flex flex-col gap-5 p-10" id="sign_in_form" method="get">
+    <form
+      class="card-body flex flex-col gap-5 p-10"
+      id="sign_in_form"
+      method="get"
+      [formGroup]="formularioLogin"
+    >
       <div class="text-center mb-2.5">
         <h3 class="text-lg font-medium text-gray-900 leading-none mb-2.5">Ingresar</h3>
         <div class="flex items-center justify-center">
@@ -13,12 +18,31 @@
 
       <div class="flex flex-col gap-1">
         <app-label> Email </app-label>
-        <app-input></app-input>
+        <app-input
+          placeholder="Ingresa tu correo"
+          formControlName="username"
+          [invalid]="formularioLogin.get('username')?.invalid"
+          [dirty]="formularioLogin.get('username')?.dirty"
+          [touched]="formularioLogin.get('username')?.touched"
+          [errors]="{
+            required: 'El correo es requerido.',
+            email: 'Ingresa un correo válido.',
+          }"
+        ></app-input>
       </div>
 
       <div class="flex flex-col gap-1">
         <app-label> Contraseña </app-label>
-        <app-input></app-input>
+        <app-input
+          placeholder="Ingresa tu contraseña"
+          formControlName="password"
+          [invalid]="formularioLogin.get('password')?.invalid"
+          [dirty]="formularioLogin.get('password')?.dirty"
+          [touched]="formularioLogin.get('password')?.touched"
+          [errors]="{
+            required: 'La contraseña es requerida.',
+          }"
+        ></app-input>
         <a class="text-2sm link shrink-0" routerLink="/auth/reset-password">
           ¿Olvidaste tu contraseña?
         </a>
@@ -29,7 +53,11 @@
         <span class="checkbox-label"> Recuerdame </span>
       </label>
 
-      <div class="w-full"></div>
+      <div class="w-full">
+        <button class="btn btn-primary w-full justify-center" (click)="login()">
+          Iniciar sesión
+        </button>
+      </div>
     </form>
   </div>
 </div>

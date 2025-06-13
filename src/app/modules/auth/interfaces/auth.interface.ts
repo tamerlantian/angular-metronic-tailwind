@@ -1,11 +1,11 @@
-import { Usuario } from '../../../interfaces/user/user.interface';
+import { Usuario } from './usuario.interface';
 
-export interface RespuestaLogin {
+export interface LoginResponse {
   token: string;
   'refresh-token': string;
   user: Usuario;
 }
 
-export interface RespuestaRegistro {
+export interface RegistroResponse {
   usuario: Usuario;
 }
