@@ -11,7 +11,7 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { ModalService } from '../service/modal.service';
+import { ModalService } from '../../../../services/modal.service';
 
 @Component({
   selector: 'app-modal-standard',
