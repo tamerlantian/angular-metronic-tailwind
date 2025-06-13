@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpService } from './http.service';
+import { HttpService } from '../../core/repository/http.repository';
 import { catchError, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subdomino } from '../clases/subdominio';

@@ -30,7 +30,7 @@
       "@common/*": [
         "src/common/*"
       ],
-      "@environment/*": [
+      "@environments/*": [
         "src/environments/*"
       ],
       "@core/*": [
