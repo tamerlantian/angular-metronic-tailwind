@@ -1,31 +1,25 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { inject, Injectable } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
 import { environment } from '@environments/environment';
+import { CookieService } from './cookie.service';
+import { LOCALSTORAGE_KEYS } from '@app/core/constants/localstorage-keys.constant';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SubdominioService {
-  private URL_API = environment.api_base;
+  private URL_API = environment.apiBase;
+  private cookieService = inject(CookieService);
 
-  constructor(private store: Store) {}
+  constructor() {}
 
   /**
    * Obtiene la URL del subdominio actual de forma reactiva
    * @returns Observable con la URL completa del subdominio
    */
   getSubdominioUrl(): Observable<string> {
-    // return this.store.select(obtenerContenedorSubdominio).pipe(
-    //   map(subdominio => {
-    //     if (!subdominio) {
-    //       return this.URL_API // URL por defecto si no hay subdominio
-    //     }
-
-    //     return this.URL_API.replace('subdominio', 'subdominio');
-    //   })
-    // );
-    return of('nectar');
+    const subdominio = this.cookieService.get(LOCALSTORAGE_KEYS.SUBDOMAIN);
+    return of(`${this.URL_API.replace('subdominio', subdominio || '')}`);
   }
 
   /**
