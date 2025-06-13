@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { MenuComponent } from '../menu/menu.component';
 
 @Component({
@@ -11,38 +11,23 @@ import { MenuComponent } from '../menu/menu.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  // @HostBinding('class') hostClass =
-  //   'header fixed top-0 z-10 left-0 right-0 flex items-stretch shrink-0 bg-[#fefefe] dark:bg-coal-500 shadow-sm dark:border-b dark:border-b-coal-100';
-  // @HostBinding('attr.role') hostRole = 'banner';
-  // @HostBinding('attr.data-sticky') dataSticky = 'true';
-  // @HostBinding('attr.data-sticky-name') dataStickyName = 'header';
-  // @HostBinding('id') hostId = 'header';
+  @HostBinding('class') hostClass =
+    'header fixed top-0 z-10 left-0 right-0 flex items-stretch shrink-0 bg-[#fefefe] dark:bg-coal-500 shadow-sm dark:border-b dark:border-b-coal-100';
+  @HostBinding('attr.role') hostRole = 'banner';
+  @HostBinding('attr.data-sticky') dataSticky = 'true';
+  @HostBinding('attr.data-sticky-name') dataStickyName = 'header';
+  @HostBinding('id') hostId = 'header';
 
   // public usuario$ = this.store.select(obtenerUsuario);
   // public contenedorNombre$: Observable<string>;
 
-  // public menuItems: MenuItems[] = [
-  //   {
-  //     titulo: 'Perfil',
-  //     icono: 'ki-filled ki-user',
-  //     link: '/perfil',
-  //   },
-  //   {
-  //     titulo: 'Mis contenedores',
-  //     icono: 'ki-filled ki-abstract-26',
-  //     link: '/contenedor/lista',
-  //   },
-  //   {
-  //     titulo: 'Facturación',
-  //     icono: 'ki-cheque ki-abstract-26',
-  //     link: '/facturacion/lista',
-  //   },
-  //   {
-  //     titulo: 'Configuración',
-  //     icono: 'ki-filled ki-setting-2',
-  //     link: '/configuracion',
-  //   },
-  // ];
+  public menuItems: any[] = [
+    {
+      titulo: 'Profile',
+      icono: 'ki-filled ki-user',
+      link: '/perfil',
+    },
+  ];
 
   // constructor() {
   //   super();

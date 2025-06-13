@@ -12,7 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 export class SidebarComponent {
   @HostBinding('class') hostClass =
-    'sidebar dark:bg-coal-600 bg-light border-r border-r-gray-200 dark:border-r-coal-100 fixed z-20 hidden lg:flex flex-col items-stretch shrink-0';
+    'sidebar h-100 dark:bg-coal-600 bg-light border-r border-r-gray-200 dark:border-r-coal-100 fixed z-20 lg:flex flex-col items-stretch shrink-0';
+  @HostBinding('style') style = {'height': '100% !important'}
   @HostBinding('attr.data-drawer') drawer = 'true';
   @HostBinding('attr.data-drawer-class') drawerClass =
     'drawer drawer-start top-0 bottom-0';
@@ -21,29 +22,21 @@ export class SidebarComponent {
 
   public sidebarMenu: any[] = [
     {
-      nombre: 'Inicio',
+      nombre: 'Home',
       link: '/dashboard',
       iconoClase: 'ki-filled ki-home',
       activo: false,
     },
     {
-      nombre: 'Administración',
+      nombre: 'Titulo',
       link: '',
       iconoClase: 'ki-filled ki-setting-2',
       activo: false,
       tipoAcordion: true,
       children: [
         {
-          nombre: 'Vehículos',
+          nombre: 'Sub',
           link: '/administracion/vehiculo/lista',
-        },
-        {
-          nombre: 'Contactos',
-          link: '/administracion/contacto/lista',
-        },
-        {
-          nombre: 'Franjas',
-          link: '/administracion/franja/lista',
         },
       ],
     },

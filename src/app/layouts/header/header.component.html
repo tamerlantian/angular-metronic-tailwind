@@ -1,4 +1,4 @@
-<!-- <ng-container>
+<ng-container>
   <div
     class="container-fixed flex justify-between items-stretch lg:gap-4"
     id="header_container"
@@ -46,11 +46,11 @@
     </div>
     <div class="flex items-center gap-2 lg:gap-3.5">
       <app-menu
-        [nombre]="(usuario$ | async)?.nombre"
-        [contenedorNombre]="contenedorNombre$ | async"
+        [nombre]="'John doe'"
+        [contenedorNombre]="'description'"
         [menuItems]="menuItems"
-        [imagen]="getUserImageUrl() | async"
+        [imagen]="''"
       ></app-menu>
     </div>
   </div>
-</ng-container> -->
+</ng-container>
