@@ -1,12 +1,57 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AlertaService {
-  constructor() {}
+/**
+ * Interfaz que define los tipos de alertas disponibles
+ */
+export interface IAlertOptions {
+  title?: string;
+  message: string;
+  icon?: 'success' | 'error' | 'warning' | 'info' | 'question';
+  timer?: number;
+  position?:
+    | 'top'
+    | 'top-start'
+    | 'top-end'
+    | 'center'
+    | 'center-start'
+    | 'center-end'
+    | 'bottom'
+    | 'bottom-start'
+    | 'bottom-end';
+  showConfirmButton?: boolean;
+  showCancelButton?: boolean;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
+  confirmButtonColor?: string;
+  customClass?: Record<string, string>;
+  input?: string;
+  inputLabel?: string;
+  html?: boolean;
+  toast?: boolean;
+  timerProgressBar?: boolean;
+  allowOutsideClick?: boolean;
+}
 
+/**
+ * Interfaz para el proveedor de alertas
+ */
+export interface IAlertProvider {
+  showSuccess(options: IAlertOptions): Promise<any>;
+  showError(options: IAlertOptions): Promise<any>;
+  showWarning(options: IAlertOptions): Promise<any>;
+  showInfo(options: IAlertOptions): Promise<any>;
+  showConfirmation(options: IAlertOptions): Promise<any>;
+  showLoading(options: IAlertOptions): Promise<any>;
+  close(): void;
+  isVisible(): boolean;
+}
+
+/**
+ * Implementación de SweetAlert2 como proveedor de alertas
+ */
+@Injectable()
+export class SweetAlert2Provider implements IAlertProvider {
   private getBaseConfig() {
     return {
       customClass: {
@@ -34,174 +79,250 @@ export class AlertaService {
     };
   }
 
-  mensajeError(title: string, text: string) {
-    Swal.fire({
-      ...this.getBaseConfig(),
-      title,
-      html: text,
-      icon: 'error',
-      position: 'bottom-right',
-      toast: true,
-      timer: 20000,
-      showConfirmButton: true,
-      timerProgressBar: true,
-      confirmButtonText: 'Cerrar',
-      confirmButtonColor: '#d9214e',
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown',
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp',
-      },
-    });
-  }
-
-  async mensajaExitoso(text: string, titulo = 'Guardado con éxito.') {
-    return await Swal.fire({
-      ...this.getBaseConfig(),
-      title: titulo,
-      html: text,
-      icon: 'success',
-      position: 'bottom-right',
-      toast: true,
-      timer: 5000,
-      timerProgressBar: true,
-      showConfirmButton: false,
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown',
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp',
-      },
-    });
-  }
-
-  async mensajaEspera(
-    text: string,
-    icon: 'success' | 'error' | 'warning' | 'info' | 'question' = 'info'
-  ) {
-    return await (Swal.fire({
-      html: text,
-      icon,
-      timerProgressBar: true,
-      showConfirmButton: true,
-      allowOutsideClick: false,
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown',
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp',
-      },
-    }),
-    Swal.showLoading());
-  }
-
-  mensajeValidacion(
-    title: string,
-    html: string,
-    icon: 'success' | 'error' | 'warning' | 'info' | 'question' = 'info'
-  ) {
+  async showSuccess(options: IAlertOptions): Promise<any> {
     return Swal.fire({
-      title,
-      icon,
-      html,
-      showCloseButton: true,
-      showCancelButton: true,
-      focusConfirm: false,
-      cancelButtonText: 'Cancelar',
-      cancelButtonAriaLabel: 'Thumbs down',
-      confirmButtonText: 'Aceptar',
-      confirmButtonAriaLabel: 'aceptar',
-      confirmButtonColor: '#009EF7',
+      ...this.getBaseConfig(),
+      title: options.title || 'Éxito',
+      html: options.html ? options.message : undefined,
+      text: !options.html ? options.message : undefined,
+      icon: 'success',
+      position: options.position || 'bottom-right',
+      toast: options.toast !== undefined ? options.toast : true,
+      timer: options.timer || 5000,
+      timerProgressBar: options.timerProgressBar !== undefined ? options.timerProgressBar : true,
+      showConfirmButton:
+        options.showConfirmButton !== undefined ? options.showConfirmButton : false,
+      confirmButtonText: options.confirmButtonText,
+      confirmButtonColor: options.confirmButtonColor || '#009EF7',
+      allowOutsideClick: options.allowOutsideClick,
     });
   }
 
-  async mensajeEliminarEmpresa(
-    empresaNombre: string | null,
-    title: string,
-    html: string,
-    inputLabel: string,
-    confirmButtonText: string,
-    cancelButtonText: string
-  ) {
-    const mensaje = await Swal.fire({
-      title,
+  async showError(options: IAlertOptions): Promise<any> {
+    return Swal.fire({
+      ...this.getBaseConfig(),
+      title: options.title || 'Error',
+      html: options.html ? options.message : undefined,
+      text: !options.html ? options.message : undefined,
+      icon: 'error',
+      position: options.position || 'bottom-right',
+      toast: options.toast !== undefined ? options.toast : true,
+      timer: options.timer || 20000,
+      timerProgressBar: options.timerProgressBar !== undefined ? options.timerProgressBar : true,
+      showConfirmButton: options.showConfirmButton !== undefined ? options.showConfirmButton : true,
+      confirmButtonText: options.confirmButtonText || 'Cerrar',
+      confirmButtonColor: options.confirmButtonColor || '#d9214e',
+    });
+  }
+
+  async showWarning(options: IAlertOptions): Promise<any> {
+    return Swal.fire({
+      ...this.getBaseConfig(),
+      title: options.title || 'Advertencia',
+      html: options.html ? options.message : undefined,
+      text: !options.html ? options.message : undefined,
       icon: 'warning',
-      html,
-      cancelButtonText,
-      confirmButtonText,
-      showCloseButton: true,
-      showCancelButton: true,
-      focusConfirm: false,
-      confirmButtonColor: '#f1416c',
-      input: 'text',
-      inputLabel: `${inputLabel}${empresaNombre}`,
-      didOpen: () => {
-        // Deshabilitar el botón de confirmar
-        Swal.getConfirmButton()?.setAttribute('disabled', 'true');
-        // Configurar el foco del input
-        const input = Swal.getInput();
-        if (input) {
-          input.focus(); // Establecer el foco en el input
-          input.oninput = () => {
-            if (Swal.getInput()?.value === empresaNombre) {
-              Swal.getConfirmButton()?.removeAttribute('disabled');
-            } else {
-              Swal.getConfirmButton()?.setAttribute('disabled', 'true');
-            }
-          };
-        }
-      },
+      showCancelButton: options.showCancelButton !== undefined ? options.showCancelButton : true,
+      confirmButtonColor: options.confirmButtonColor || '#f1416c',
+      confirmButtonText: options.confirmButtonText || 'Aceptar',
+      cancelButtonText: options.cancelButtonText || 'Cancelar',
     });
-    return mensaje;
   }
 
-  cerrarMensajes() {
-    return Swal.close();
+  async showInfo(options: IAlertOptions): Promise<any> {
+    return Swal.fire({
+      ...this.getBaseConfig(),
+      title: options.title,
+      html: options.html ? options.message : undefined,
+      text: !options.html ? options.message : undefined,
+      icon: 'info',
+      showConfirmButton: options.showConfirmButton !== undefined ? options.showConfirmButton : true,
+      confirmButtonText: options.confirmButtonText || 'Aceptar',
+      confirmButtonColor: options.confirmButtonColor || '#009EF7',
+    });
   }
 
-  mensajeVisible() {
+  async showConfirmation(options: IAlertOptions): Promise<any> {
+    return Swal.fire({
+      ...this.getBaseConfig(),
+      title: options.title || 'Confirmar',
+      html: options.html ? options.message : undefined,
+      text: !options.html ? options.message : undefined,
+      icon: options.icon || 'warning',
+      showCancelButton: true,
+      confirmButtonColor: options.confirmButtonColor || '#d33',
+      confirmButtonText: options.confirmButtonText || 'Confirmar',
+      cancelButtonText: options.cancelButtonText || 'Cancelar',
+    });
+  }
+
+  async showLoading(options: IAlertOptions): Promise<any> {
+    const result = Swal.fire({
+      ...this.getBaseConfig(),
+      title: options.title,
+      html: options.message,
+      icon: options.icon || 'info',
+      timerProgressBar: options.timerProgressBar !== undefined ? options.timerProgressBar : true,
+      showConfirmButton:
+        options.showConfirmButton !== undefined ? options.showConfirmButton : false,
+      allowOutsideClick:
+        options.allowOutsideClick !== undefined ? options.allowOutsideClick : false,
+    });
+
+    Swal.showLoading();
+    return result;
+  }
+
+  close(): void {
+    Swal.close();
+  }
+
+  isVisible(): boolean {
     return Swal.isVisible();
   }
+}
 
-  async mensajaContactoLandinpage(text: string) {
-    return await Swal.fire({
-      html: text,
-      icon: 'success',
-      timer: 5000,
-      timerProgressBar: true,
-      showConfirmButton: false,
-      allowOutsideClick: false,
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown',
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp',
-      },
-    }).then(() => {
-      window.location.href = '/';
+/**
+ * Servicio de alertas principal que utiliza el patrón de estrategia
+ * para permitir diferentes implementaciones de alertas
+ */
+@Injectable({
+  providedIn: 'root',
+})
+export class AlertaService {
+  private provider: IAlertProvider;
+
+  constructor() {
+    // Por defecto usamos SweetAlert2, pero podríamos cambiar a otra implementación
+    this.provider = new SweetAlert2Provider();
+  }
+
+  /**
+   * Permite cambiar el proveedor de alertas en tiempo de ejecución
+   */
+  setProvider(provider: IAlertProvider): void {
+    this.provider = provider;
+  }
+
+  /**
+   * Muestra un mensaje de éxito
+   */
+  async mostrarExito(
+    mensaje: string,
+    titulo?: string,
+    opciones: Partial<IAlertOptions> = {}
+  ): Promise<any> {
+    return this.provider.showSuccess({
+      message: mensaje,
+      title: titulo || 'Operación exitosa',
+      ...opciones,
     });
   }
 
-  async confirmar({
-    colorConfirmar = '#d33',
-    texto,
-    textoBotonCofirmacion,
-    titulo,
-  }: {
-    titulo: string;
-    texto: string;
-    textoBotonCofirmacion: string;
-    colorConfirmar?: string;
-  }) {
-    return await Swal.fire({
-      title: titulo,
-      icon: 'warning',
-      text: texto,
-      showCancelButton: true,
-      confirmButtonColor: colorConfirmar,
-      confirmButtonText: textoBotonCofirmacion,
-      cancelButtonText: 'Cancelar',
+  /**
+   * Muestra un mensaje de error
+   */
+  async mostrarError(
+    mensaje: string,
+    titulo?: string,
+    opciones: Partial<IAlertOptions> = {}
+  ): Promise<any> {
+    return this.provider.showError({
+      message: mensaje,
+      title: titulo || 'Error',
+      ...opciones,
     });
+  }
+
+  /**
+   * Muestra un mensaje de advertencia
+   */
+  async mostrarAdvertencia(
+    mensaje: string,
+    titulo?: string,
+    opciones: Partial<IAlertOptions> = {}
+  ): Promise<any> {
+    return this.provider.showWarning({
+      message: mensaje,
+      title: titulo || 'Advertencia',
+      ...opciones,
+    });
+  }
+
+  /**
+   * Muestra un mensaje informativo
+   */
+  async mostrarInfo(
+    mensaje: string,
+    titulo?: string,
+    opciones: Partial<IAlertOptions> = {}
+  ): Promise<any> {
+    return this.provider.showInfo({
+      message: mensaje,
+      title: titulo,
+      ...opciones,
+    });
+  }
+
+  /**
+   * Muestra un diálogo de confirmación
+   */
+  async confirmar(
+    mensaje: string,
+    titulo?: string,
+    opciones: Partial<IAlertOptions> = {}
+  ): Promise<any> {
+    return this.provider.showConfirmation({
+      message: mensaje,
+      title: titulo || 'Confirmar acción',
+      ...opciones,
+    });
+  }
+
+  /**
+   * Muestra un indicador de carga
+   */
+  async mostrarCarga(mensaje: string, opciones: Partial<IAlertOptions> = {}): Promise<any> {
+    return this.provider.showLoading({
+      message: mensaje,
+      ...opciones,
+    });
+  }
+
+  /**
+   * Cierra cualquier alerta activa
+   */
+  cerrar(): void {
+    this.provider.close();
+  }
+
+  /**
+   * Verifica si hay alguna alerta visible
+   */
+  estaVisible(): boolean {
+    return this.provider.isVisible();
+  }
+
+  /**
+   * Método para redirigir después de mostrar un mensaje
+   * Mantenemos este método para compatibilidad con el código existente
+   */
+  async mostrarYRedirigir(
+    mensaje: string,
+    ruta: string = '/',
+    opciones: Partial<IAlertOptions> = {}
+  ): Promise<any> {
+    return this.provider
+      .showSuccess({
+        message: mensaje,
+        timer: 5000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        ...opciones,
+      })
+      .then(() => {
+        window.location.href = ruta;
+      });
   }
 }
