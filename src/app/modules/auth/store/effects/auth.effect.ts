@@ -7,6 +7,7 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AuthRepository } from '../../repositories/auth.repository';
 import { loginFailure, loginRequest, loginSuccess } from '../actions/login.action';
 import { LOCALSTORAGE_KEYS } from '@app/core/constants/localstorage-keys.constant';
+import { environment } from '@environments/environment';
 
 @Injectable()
 export class AuthEffects {
@@ -23,19 +24,19 @@ export class AuthEffects {
       switchMap(({ credentials }) =>
         this.authRepository.login(credentials).pipe(
           map(response => {
+            const cookieOptions = this.cookieService.getAuthCookieOptions(environment.cookieTime);
             // Guardar la información del usuario en una cookie para rehidratar el estado
-            this.cookieService.set(LOCALSTORAGE_KEYS.USER, JSON.stringify(response.user), {
-              expires: 1,
-              path: '/',
-            });
-            this.cookieService.set(LOCALSTORAGE_KEYS.AUTH_TOKEN, response.token, {
-              expires: 1,
-              path: '/',
-            });
-            this.cookieService.set(LOCALSTORAGE_KEYS.REFRESH_TOKEN, response['refresh-token'], {
-              expires: 1,
-              path: '/',
-            });
+            this.cookieService.set(
+              LOCALSTORAGE_KEYS.USER,
+              JSON.stringify(response.user),
+              cookieOptions
+            );
+            this.cookieService.set(LOCALSTORAGE_KEYS.AUTH_TOKEN, response.token, cookieOptions);
+            this.cookieService.set(
+              LOCALSTORAGE_KEYS.REFRESH_TOKEN,
+              response['refresh-token'],
+              cookieOptions
+            );
 
             return loginSuccess({ response });
           }),
