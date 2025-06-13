@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { CookieService } from '@app/core/services/cookie.service';
+import { LOCALSTORAGE_KEYS } from '@app/core/constants/localstorage-keys.constant';
 
 /**
  * Interfaz para el token JWT decodificado
@@ -17,7 +18,6 @@ interface DecodedToken {
   providedIn: 'root',
 })
 export class TokenService {
-  private readonly TOKEN_KEY = 'token';
   private readonly cookieService = inject(CookieService);
 
   constructor() {}
@@ -27,7 +27,7 @@ export class TokenService {
    * @returns true si el token existe y es válido, false en caso contrario
    */
   validarToken(): boolean {
-    const token = this.cookieService.get(this.TOKEN_KEY);
+    const token = this.cookieService.get(LOCALSTORAGE_KEYS.AUTH_TOKEN);
 
     if (!token) {
       return false;
@@ -45,7 +45,7 @@ export class TokenService {
       }
     } catch (error) {
       console.error('Error al decodificar el token:', error);
-      this.cookieService.delete(this.TOKEN_KEY); // Eliminar token inválido
+      this.cookieService.delete(LOCALSTORAGE_KEYS.AUTH_TOKEN); // Eliminar token inválido
       return false;
     }
 
@@ -57,7 +57,7 @@ export class TokenService {
    * @returns Contenido del token decodificado o null si no existe o es inválido
    */
   obtenerDatosToken(): DecodedToken | null {
-    const token = this.cookieService.get(this.TOKEN_KEY);
+    const token = this.cookieService.get(LOCALSTORAGE_KEYS.AUTH_TOKEN);
 
     if (!token) {
       return null;

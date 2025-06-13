@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AuthRepository } from '../../repositories/auth.repository';
 import { loginFailure, loginRequest, loginSuccess } from '../actions/login.action';
+import { LOCALSTORAGE_KEYS } from '@app/core/constants/localstorage-keys.constant';
 
 @Injectable()
 export class AuthEffects {
@@ -23,15 +24,15 @@ export class AuthEffects {
         this.authRepository.login(credentials).pipe(
           map(response => {
             // Guardar la información del usuario en una cookie para rehidratar el estado
-            this.cookieService.set('usuario', JSON.stringify(response.user), {
+            this.cookieService.set(LOCALSTORAGE_KEYS.USER, JSON.stringify(response.user), {
               expires: 1,
               path: '/',
             });
-            this.cookieService.set('token', response.token, {
+            this.cookieService.set(LOCALSTORAGE_KEYS.AUTH_TOKEN, response.token, {
               expires: 1,
               path: '/',
             });
-            this.cookieService.set('refresh-token', response['refresh-token'], {
+            this.cookieService.set(LOCALSTORAGE_KEYS.REFRESH_TOKEN, response['refresh-token'], {
               expires: 1,
               path: '/',
             });
