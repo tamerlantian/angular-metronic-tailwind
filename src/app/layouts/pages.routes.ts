@@ -10,7 +10,7 @@ export default [
     children: [
       {
         path: '',
-        loadChildren: () => import('../modules/dashboard/dashboard.routes'),
+        loadChildren: () => import('../modules/home/pages/dashboard/dashboard.routes'),
       },
     ],
   },

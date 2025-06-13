@@ -8,14 +8,14 @@ export default [
   },
   {
     path: 'login',
-    loadComponent: () => import('./components/login/login.component'),
+    loadComponent: () => import('./pages/login/login.component'),
   },
   {
     path: 'register',
-    loadComponent: () => import('./components/register/register.component'),
+    loadComponent: () => import('./pages/register/register.component'),
   },
   {
     path: 'reset-password',
-    loadComponent: () => import('./components/recover-password/recover-password.component'),
+    loadComponent: () => import('./pages/recover-password/recover-password.component'),
   },
 ] as Routes;
