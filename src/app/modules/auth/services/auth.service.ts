@@ -1,21 +1,21 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { TokenService } from "./token.service";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { TokenService } from './token.service';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(
     private http: HttpClient,
-    private tokenService: TokenService,
+    private tokenService: TokenService
   ) {}
 
   // registro(parametros: any) {
   //   return this.http.post<any>(
   //     `${environment.url_api}/seguridad/usuario/`,
   //     parametros,
-  //     { context: noRequiereToken() } 
+  //     { context: noRequiereToken() }
   //   );
   // }
 

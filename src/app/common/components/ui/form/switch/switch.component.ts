@@ -5,17 +5,12 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-switch',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './switch.component.html',
   styleUrl: './switch.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SwitchComponent { 
-
+export class SwitchComponent {
   @Input() titulo = '';
   @Input({ required: true }) control = new FormControl();
-
 }

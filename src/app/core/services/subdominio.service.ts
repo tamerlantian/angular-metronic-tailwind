@@ -35,11 +35,9 @@ export class SubdominioService {
    */
   buildUrl(path: string): Observable<string> {
     return this.getSubdominioUrl().pipe(
-      map((baseUrl) => {
+      map(baseUrl => {
         // Asegurarse de que la URL base termina con / y la ruta no comienza con /
-        const normalizedBaseUrl = baseUrl.endsWith('/')
-          ? baseUrl
-          : `${baseUrl}/`;
+        const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
         const normalizedPath = path.startsWith('/') ? path.substring(1) : path;
         return `${normalizedBaseUrl}${normalizedPath}`;
       })

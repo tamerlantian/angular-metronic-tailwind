@@ -8,33 +8,24 @@
         </div>
         <div class="w-full">
           <app-label>Apellido</app-label>
-          <app-input
-            [control]="formularioResumen.controls.apellido"
-          ></app-input>
+          <app-input [control]="formularioResumen.controls.apellido"></app-input>
         </div>
       </div>
 
       <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <app-label [required]="true">Nombre para mostrar</app-label>
-          <app-input
-            [control]="formularioResumen.controls.nombreCorto"
-          ></app-input>
+          <app-input [control]="formularioResumen.controls.nombreCorto"></app-input>
         </div>
         <div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <app-label>País</app-label>
-              <select
-                class="select"
-                formControlName="indicativoPais"
-              >
+              <select class="select" formControlName="indicativoPais">
                 <option
                   *ngFor="let pais of paises"
                   [ngValue]="pais.dial_code"
-                  [selected]="
-                    usuarioInformacion.indicativoPais === pais.dial_code
-                  "
+                  [selected]="usuarioInformacion.indicativoPais === pais.dial_code"
                 >
                   {{ pais.name_es }} {{ pais.dial_code }}
                 </option>
@@ -51,9 +42,7 @@
       <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <app-label>Número de identificación</app-label>
-          <app-input
-            [control]="formularioResumen.controls.numero_identificacion"
-          />
+          <app-input [control]="formularioResumen.controls.numero_identificacion" />
         </div>
         <div>
           <app-label>Idioma</app-label>
@@ -85,11 +74,7 @@
       let-validation="validation"
       let-cantidadCaracteres="cantidadCaracteres"
     >
-      <ng-container
-        *ngIf="
-          control.hasError(validation) && (control.dirty || control.touched)
-        "
-      >
+      <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
         <div class="mt-1">
           <div class="text-red-600 text-sm">
             <span role="alert">{{ message }} {{ cantidadCaracteres }}</span>

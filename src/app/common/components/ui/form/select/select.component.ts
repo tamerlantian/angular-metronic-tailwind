@@ -17,5 +17,5 @@ interface Opciones {
 })
 export class SelectComponent {
   @Input({ required: true }) control = new FormControl();
-  @Input() opciones: Opciones[] = []
+  @Input() opciones: Opciones[] = [];
 }

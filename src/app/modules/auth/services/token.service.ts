@@ -3,34 +3,30 @@ import { jwtDecode } from 'jwt-decode';
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TokenService {
+  constructor() {}
 
-  constructor() { }
-
-  guardar(token:string, calcularTiempo:Date){
-    setCookie('token', token, {expires: calcularTiempo,
-      path: '/'})
+  guardar(token: string, calcularTiempo: Date) {
+    setCookie('token', token, { expires: calcularTiempo, path: '/' });
   }
 
-  obtener(){
-    const token = getCookie('token')
-    return token
+  obtener() {
+    const token = getCookie('token');
+    return token;
   }
 
   eliminar() {
-    removeCookie('token', {path: '/'})
+    removeCookie('token', { path: '/' });
   }
 
-  refrescar(){
-    
-  }
+  refrescar() {}
 
-  validarToken(){
-    const token = this.obtener()
-    if(!token){
-      return false
+  validarToken() {
+    const token = this.obtener();
+    if (!token) {
+      return false;
     }
     const tokenDecodificado = jwtDecode(token);
     if (tokenDecodificado && tokenDecodificado?.exp) {
@@ -42,6 +38,4 @@ export class TokenService {
     }
     return false;
   }
-  
-
 }

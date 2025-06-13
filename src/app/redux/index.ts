@@ -1,6 +1,3 @@
+export const StoreApp = {};
 
-export const StoreApp = {
-};
-
-export const EffectsApp = [
-]
+export const EffectsApp = [];

@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './search-modal.component.html',
-  styleUrl: './search-modal.component.scss'
+  styleUrl: './search-modal.component.scss',
 })
-export class SearchModalComponent {
-
-}
+export class SearchModalComponent {}

@@ -1,12 +1,5 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -18,13 +11,8 @@ import { General } from '../../../../common/clases/general';
 import { InputComponent } from '../../../../common/components/ui/form/input/input.component';
 import { LabelComponent } from '../../../../common/components/ui/form/label/label.component';
 import { ModalService } from '../../../../common/components/ui/modals/service/modal.service';
-import {
-  usuarioActionActualizar
-} from '../../../../redux/actions/auth/usuario.actions';
-import {
-  obtenerUsuario,
-  obtenerUsuarioId,
-} from '../../../../redux/selectors/usuario.selector';
+import { usuarioActionActualizar } from '../../../../redux/actions/auth/usuario.actions';
+import { obtenerUsuario, obtenerUsuarioId } from '../../../../redux/selectors/usuario.selector';
 import { Usuario } from '../../../contenedores/interfaces/usuarios-contenedores.interface';
 import { paises } from '../../constants/paises';
 import { LanguageFlag } from '../../types/informacion-perfil.type';
@@ -75,14 +63,8 @@ export class InformacionUsuarioComponent extends General implements OnInit {
   ];
 
   formularioResumen = new FormGroup({
-    nombre: new FormControl(
-      '',
-      Validators.compose([Validators.maxLength(255)])
-    ),
-    apellido: new FormControl(
-      '',
-      Validators.compose([Validators.maxLength(255)])
-    ),
+    nombre: new FormControl('', Validators.compose([Validators.maxLength(255)])),
+    apellido: new FormControl('', Validators.compose([Validators.maxLength(255)])),
     indicativoPais: new FormControl(''),
     telefono: new FormControl(
       '',
@@ -98,10 +80,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
     ),
     idioma: new FormControl('', Validators.compose([Validators.minLength(2)])),
     cargo: new FormControl('', Validators.compose([Validators.maxLength(255)])),
-    numero_identificacion: new FormControl(
-      '',
-      Validators.compose([Validators.maxLength(20)])
-    ),
+    numero_identificacion: new FormControl('', Validators.compose([Validators.maxLength(20)])),
     imagen: new FormControl(''),
   });
 
@@ -111,11 +90,11 @@ export class InformacionUsuarioComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
+    this.store.select(obtenerUsuarioId).subscribe(codigoUsuario => {
       this.codigoUsuario = codigoUsuario;
       this.changeDetectorRef.detectChanges();
     });
-    this.store.select(obtenerUsuario).subscribe((usuario) => {
+    this.store.select(obtenerUsuario).subscribe(usuario => {
       this.usuario = usuario;
     });
     this.consultarInformacion();
@@ -133,13 +112,11 @@ export class InformacionUsuarioComponent extends General implements OnInit {
       numero_identificacion: this.usuarioInformacion.numero_identificacion,
     });
 
-    this.formularioResumen
-      .get('numero_identificacion')
-      ?.valueChanges.subscribe((value) => {
-        if (value === '') {
-          this.formularioResumen.get('numero_identificacion')?.setValue(null);
-        }
-      });
+    this.formularioResumen.get('numero_identificacion')?.valueChanges.subscribe(value => {
+      if (value === '') {
+        this.formularioResumen.get('numero_identificacion')?.setValue(null);
+      }
+    });
 
     this.changeDetectorRef.detectChanges();
   }
@@ -150,7 +127,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
 
   formSubmit() {
     if (this.formularioResumen.valid) {
-      let indicativoPais = this.formularioResumen.value.indicativoPais;
+      const indicativoPais = this.formularioResumen.value.indicativoPais;
       let telefono = this.formularioResumen.value.telefono;
 
       if (indicativoPais && telefono) {
@@ -174,11 +151,10 @@ export class InformacionUsuarioComponent extends General implements OnInit {
             idioma: this.formularioResumen.value.idioma,
             imagen: this.formularioResumen.value.imagen,
             cargo: this.formularioResumen.value.cargo,
-            numero_identificacion:
-              this.formularioResumen.value.numero_identificacion,
+            numero_identificacion: this.formularioResumen.value.numero_identificacion,
           })
           .subscribe({
-            next: (respuesta) => {
+            next: respuesta => {
               this.store.dispatch(
                 usuarioActionActualizar({
                   usuario: {
@@ -188,14 +164,11 @@ export class InformacionUsuarioComponent extends General implements OnInit {
                     telefono: telefono,
                     idioma: this.formularioResumen.value.idioma,
                     cargo: this.formularioResumen.value.cargo,
-                    numero_identificacion:
-                      this.formularioResumen.value.numero_identificacion,
+                    numero_identificacion: this.formularioResumen.value.numero_identificacion,
                   },
                 })
               );
-              this.alerta.mensajaExitoso(
-                'Información actualizada correctamente'
-              );
+              this.alerta.mensajaExitoso('Información actualizada correctamente');
             },
           });
         this._modalService.close('editar-perfil');
@@ -207,13 +180,13 @@ export class InformacionUsuarioComponent extends General implements OnInit {
 
   consultarInformacion() {
     this._authService.perfil(this.codigoUsuario).subscribe({
-      next: (respuesta) => {
+      next: respuesta => {
         let indicativo = '';
         let telefono = '';
 
         if (respuesta.telefono) {
           if (respuesta.telefono.charAt(0) === '+') {
-            let partesTelefono = respuesta.telefono.split(' ');
+            const partesTelefono = respuesta.telefono.split(' ');
             indicativo = partesTelefono[0];
             telefono = partesTelefono[1];
           } else {

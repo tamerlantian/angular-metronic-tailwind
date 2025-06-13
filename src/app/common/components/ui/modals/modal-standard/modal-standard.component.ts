@@ -8,6 +8,8 @@ import {
   Input,
   Output,
   signal,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { ModalService } from '../service/modal.service';
 
@@ -19,7 +21,7 @@ import { ModalService } from '../service/modal.service';
   styleUrl: './modal-standard.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalStandardComponent {
+export class ModalStandardComponent implements OnInit, OnDestroy {
   private document = inject(DOCUMENT);
   private modalService = inject(ModalService);
 
@@ -39,11 +41,11 @@ export class ModalStandardComponent {
       throw new Error('Modal must have an id');
     }
     this.modalService.register(this.modalId);
-    this.modalService.isOpen$(this.modalId).subscribe((isOpen) => {
+    this.modalService.isOpen$(this.modalId).subscribe(isOpen => {
       this.isOpen.set(isOpen);
       if (!isOpen) {
         this.closed.emit();
-      } 
+      }
     });
   }
 

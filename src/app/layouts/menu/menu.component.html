@@ -7,31 +7,19 @@
     data-menu-item-trigger="click|lg:click"
   >
     <div class="menu-toggle btn btn-icon rounded-full">
-      <img
-        alt=""
-        class="size-9 rounded-full border-2 shrink-0"
-        [src]="imagen"
-      />
+      <img alt="" class="size-9 rounded-full border-2 shrink-0" [src]="imagen" />
     </div>
-    <div
-      class="menu-dropdown menu-default light:border-gray-300 w-full max-w-[250px]"
-    >
+    <div class="menu-dropdown menu-default light:border-gray-300 w-full max-w-[250px]">
       <div class="flex items-center justify-between px-5 py-1.5 gap-1.5">
         <div class="flex items-center gap-2">
-          <img
-            alt=""
-            class="size-9 rounded-full border-2"
-            [src]="imagen"
-          />
+          <img alt="" class="size-9 rounded-full border-2" [src]="imagen" />
           <div class="flex flex-col gap-1.5">
             <span class="text-sm text-gray-800 font-semibold leading-none">
               {{ nombre }}
             </span>
-            <span
-              class="text-xs text-gray-600 font-medium leading-none"
-            >
+            <span class="text-xs text-gray-600 font-medium leading-none">
               {{ contenedorNombre }}
-          </span>
+            </span>
           </div>
         </div>
         <span class="badge badge-xs badge-primary badge-outline"> Pro </span>
@@ -39,18 +27,18 @@
       <div class="menu-separator"></div>
       <div class="flex flex-col">
         @for (item of menuItems; track $index) {
-        <div class="menu-item">
-          <button class="menu-link">
-            <span class="menu-icon">
-              <i class="ki-filled" [ngClass]="item.icono"></i>
-            </span>
-            <span class="menu-title"> {{ item.titulo }} </span>
-          </button>
-        </div>
+          <div class="menu-item">
+            <button class="menu-link">
+              <span class="menu-icon">
+                <i class="ki-filled" [ngClass]="item.icono"></i>
+              </span>
+              <span class="menu-title"> {{ item.titulo }} </span>
+            </button>
+          </div>
         }
       </div>
       @if (menuItems.length) {
-      <div class="menu-separator"></div>
+        <div class="menu-separator"></div>
       }
     </div>
   </div>

@@ -1,9 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from '../../layouts/footer/footer.component';
 import { HeaderComponent } from '../../layouts/header/header.component';
@@ -21,7 +17,7 @@ import KTLayout from '../../../metronic/app/layouts/demo1';
     SidebarComponent,
     SearchModalComponent,
     HeaderComponent,
-],
+  ],
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

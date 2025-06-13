@@ -22,43 +22,43 @@
         </thead>
         <tbody>
           @for (item of datos; track $index) {
-          <tr>
-            @for (encabezado of encabezados; track $index) {
-            <td>
-              <app-tabla-campo
-                [datoCampo]="item[encabezado.campoNombre]"
-                [tipoCampo]="encabezado.campoTipo"
-              ></app-tabla-campo>
-            </td>
-            }
-            <td>
-              <button
-                (click)="editarItem(item.id)"
-                class="btn btn-sm btn-icon btn-clear btn-light"
-                href="#"
-              >
-                <i class="ki-filled ki-notepad-edit"> </i>
-              </button>
-            </td>
-            <td>
-              <button
-                (click)="detalleItem(item.id)"
-                class="btn btn-sm btn-icon btn-clear btn-light"
-                href="#"
-              >
-                <i class="ki-filled ki-eye"> </i>
-              </button>
-            </td>
-            <td class="w-[60px]">
-              <input
-                class="checkbox checkbox-sm"
-                data-datatable-check="true"
-                type="checkbox"
-                (change)="manejarCheckItem($event, item.id)"
-                [checked]="estoyEnListaEliminar(item.id)"
-              />
-            </td>
-          </tr>
+            <tr>
+              @for (encabezado of encabezados; track $index) {
+                <td>
+                  <app-tabla-campo
+                    [datoCampo]="item[encabezado.campoNombre]"
+                    [tipoCampo]="encabezado.campoTipo"
+                  ></app-tabla-campo>
+                </td>
+              }
+              <td>
+                <button
+                  (click)="editarItem(item.id)"
+                  class="btn btn-sm btn-icon btn-clear btn-light"
+                  href="#"
+                >
+                  <i class="ki-filled ki-notepad-edit"> </i>
+                </button>
+              </td>
+              <td>
+                <button
+                  (click)="detalleItem(item.id)"
+                  class="btn btn-sm btn-icon btn-clear btn-light"
+                  href="#"
+                >
+                  <i class="ki-filled ki-eye"> </i>
+                </button>
+              </td>
+              <td class="w-[60px]">
+                <input
+                  class="checkbox checkbox-sm"
+                  data-datatable-check="true"
+                  type="checkbox"
+                  (change)="manejarCheckItem($event, item.id)"
+                  [checked]="estoyEnListaEliminar(item.id)"
+                />
+              </td>
+            </tr>
           }
         </tbody>
       </table>

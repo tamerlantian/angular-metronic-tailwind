@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 export class AlertaService {
   constructor() {}
 
-    private getBaseConfig() {
+  private getBaseConfig() {
     return {
       customClass: {
         container: '!font-sans !overflow-hidden',
@@ -16,19 +16,21 @@ export class AlertaService {
         closeButton: '!text-gray-400 hover:!text-gray-600',
         icon: '!mx-auto !mb-4',
         content: '!text-gray-600',
-        input: '!mt-2 !border !border-gray-300 !rounded !px-3 !py-2 focus:!outline-none focus:!ring-2 focus:!ring-blue-500',
+        input:
+          '!mt-2 !border !border-gray-300 !rounded !px-3 !py-2 focus:!outline-none focus:!ring-2 focus:!ring-blue-500',
         actions: '!mt-6 !flex !justify-end !space-x-3',
         confirmButton: '!px-4 !py-2 !rounded !font-medium !shadow-sm',
-        cancelButton: '!px-4 !py-2 !rounded !font-medium !bg-white !border !border-gray-300 !text-gray-700 !shadow-sm hover:!bg-gray-50',
-        footer: '!mt-4 !text-gray-500 !text-sm'
+        cancelButton:
+          '!px-4 !py-2 !rounded !font-medium !bg-white !border !border-gray-300 !text-gray-700 !shadow-sm hover:!bg-gray-50',
+        footer: '!mt-4 !text-gray-500 !text-sm',
       },
       buttonsStyling: false,
       showClass: {
-        popup: 'animate__animated animate__fadeInDown'
+        popup: 'animate__animated animate__fadeInDown',
       },
       hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
-      }
+        popup: 'animate__animated animate__fadeOutUp',
+      },
     };
   }
 

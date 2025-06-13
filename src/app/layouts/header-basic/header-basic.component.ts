@@ -51,15 +51,16 @@ export class HeaderBasicComponent extends General implements OnInit {
   private imageTimestamp = Date.now();
 
   getUserImageUrl() {
-    return this.usuario$?.pipe(map((usuario) => {
-      if(usuario?.imagen.includes('defecto')){
-        return usuario?.imagen;
-      } else {
-        return `${usuario?.imagen}?${new Date().getTime()}`;
-      }
-    }));
+    return this.usuario$?.pipe(
+      map(usuario => {
+        if (usuario?.imagen.includes('defecto')) {
+          return usuario?.imagen;
+        } else {
+          return `${usuario?.imagen}?${new Date().getTime()}`;
+        }
+      })
+    );
   }
-
 
   ngOnInit(): void {
     this.contenedorNombre$ = this.store.select(obtenerContenedorNombre);

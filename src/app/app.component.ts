@@ -10,19 +10,13 @@ import KTComponents from '../metronic/core/index';
 @Component({
   selector: 'body[root]',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    HeaderComponent,
-    FooterComponent,
-    SidebarComponent,
-    SearchModalComponent,
-  ],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, SidebarComponent, SearchModalComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements AfterViewInit, OnInit {
   title = 'metronic-tailwind-angular';
-  @HostBinding('class') hostClass = '' ;
+  @HostBinding('class') hostClass = '';
 
   ngAfterViewInit(): void {
     KTComponents.init();

@@ -6,13 +6,12 @@ export default [
   {
     path: 'dashboard',
     // canActivate: [authGuard, contenedorGuard],
-    loadComponent: () =>
-      import('./admin-layout/admin-layout.component'),
+    loadComponent: () => import('./admin-layout/admin-layout.component'),
     children: [
       {
         path: '',
         loadChildren: () => import('../modules/dashboard/dashboard.routes'),
       },
-    ]
+    ],
   },
 ] as Routes;

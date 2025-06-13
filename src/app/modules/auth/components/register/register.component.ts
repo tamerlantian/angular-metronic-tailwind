@@ -1,26 +1,16 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
-import { NgxTurnstileModule } from 'ngx-turnstile';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    NgxTurnstileModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class RegisterComponent  {
+export default class RegisterComponent {
   // private authService = inject(AuthService);
   // private _router = inject(Router);
   // public registrando$ = new BehaviorSubject<boolean>(false);
@@ -28,7 +18,6 @@ export default class RegisterComponent  {
   // turnstileSiteKey: string = environment.turnstileSiteKey;
   // isProduction: boolean = environment.production;
   // public isLoading$ = new BehaviorSubject<boolean>(false);
-
   // formulario = new FormGroup({
   //   turnstileToken: new FormControl(''),
   //   username: new FormControl('', Validators.required),
@@ -49,7 +38,6 @@ export default class RegisterComponent  {
   //     Validators.compose([Validators.requiredTrue])
   //   ),
   // });
-
   // ngOnInit(): void {
   //   if (this.isProduction) {
   //     this.formulario
@@ -57,22 +45,18 @@ export default class RegisterComponent  {
   //       ?.addValidators([Validators.required]);
   //   }
   // }
-
   // validarContrasena(): ValidatorFn {
   //   return (control: AbstractControl): ValidationErrors | null => {
   //     const clave = control.root.get('password')?.value;
   //     const confirmarClave = control.value;
-
   //     return clave === confirmarClave ? null : { clavesDiferentes: true };
   //   };
   // }
-
   // onTurnstileSuccess(token: string): void {
   //   this.turnstileToken = token;
   //   this.formulario.get('turnstileToken')?.setValue(token);
   //   this.changeDetectorRef.detectChanges();
   // }
-
   // enviar() {
   //   this.registrando$.next(true);
   //   this.authService

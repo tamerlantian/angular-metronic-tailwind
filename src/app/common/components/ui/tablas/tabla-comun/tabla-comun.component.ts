@@ -45,8 +45,8 @@ export class TablaComunComponent extends General implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.encabezados = this.mapeo?.[this.campoMapeo]?.datos
-      ?.filter((dato) => dato.visibleTabla === true)
-      ?.map((dato) => dato);
+      ?.filter(dato => dato.visibleTabla === true)
+      ?.map(dato => dato);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -96,12 +96,12 @@ export class TablaComunComponent extends General implements OnInit, OnChanges {
   }
 
   removerItemDeListaEliminar(id: number) {
-    const itemsFiltrados = this._itemsAEliminar.filter((item) => item !== id);
+    const itemsFiltrados = this._itemsAEliminar.filter(item => item !== id);
     this._itemsAEliminar = itemsFiltrados;
   }
 
   agregarTodosLosItemsAListaEliminar() {
-    this.datos.forEach((item) => {
+    this.datos.forEach(item => {
       const indexItem = this._itemsAEliminar.indexOf(item.id);
 
       if (indexItem === -1) {

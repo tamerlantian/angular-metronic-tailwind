@@ -7,12 +7,7 @@ import { HeaderBasicComponent } from '../header-basic/header-basic.component';
 @Component({
   selector: 'app-contenedor-layout',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    FooterComponent,
-    SearchModalComponent,
-    HeaderBasicComponent,
-],
+  imports: [RouterOutlet, FooterComponent, SearchModalComponent, HeaderBasicComponent],
   templateUrl: './simple-layout.component.html',
   styleUrl: './simple-layout.component.scss',
 })

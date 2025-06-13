@@ -1,15 +1,9 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { NgxTurnstileModule } from 'ngx-turnstile';
-import { InputComponent } from "../../../../common/components/ui/form/input/input.component";
-import { LabelComponent } from "../../../../common/components/ui/form/label/label.component";
+import { InputComponent } from '../../../../common/components/ui/form/input/input.component';
+import { LabelComponent } from '../../../../common/components/ui/form/label/label.component';
 
 @Component({
   selector: 'app-login',
@@ -18,15 +12,14 @@ import { LabelComponent } from "../../../../common/components/ui/form/label/labe
     CommonModule,
     ReactiveFormsModule,
     RouterLink,
-    NgxTurnstileModule,
     InputComponent,
-    LabelComponent
-],
+    LabelComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class LoginComponent  {
+export default class LoginComponent {
   // private tokenService = inject(TokenService);
   // private authService = inject(AuthService);
   // private _router = inject(Router);
@@ -34,7 +27,6 @@ export default class LoginComponent  {
   // turnstileSiteKey: string = environment.turnstileSiteKey;
   // public isLoading$ = new BehaviorSubject<boolean>(false);
   // isProduction: boolean = environment.production;
-
   // formularioLogin = new FormGroup({
   //   cf_turnstile_response: new FormControl(''),
   //   proyecto: new FormControl('RUTEO'),
@@ -48,7 +40,6 @@ export default class LoginComponent  {
   //     ])
   //   ),
   // });
-
   // ngOnInit(): void {
   //   if (this.isProduction) {
   //     this.formularioLogin
@@ -56,20 +47,17 @@ export default class LoginComponent  {
   //       ?.addValidators([Validators.required]);
   //   }
   // }
-
   // onTurnstileSuccess(token: string): void {
   //   this.turnstileToken = token;
   //   this.formularioLogin.get('cf_turnstile_response')?.setValue(token);
   //   this.changeDetectorRef.detectChanges();
   // }
-
   // enviar() {
   //   if (this.formularioLogin.invalid) {
   //     this.formularioLogin.markAllAsTouched();
   //     this.formularioLogin.markAsDirty();
   //     return;
   //   }
-
   //   this.isLoading$.next(true);
   //   this.authService
   //     .login(this.formularioLogin.value)
@@ -94,11 +82,9 @@ export default class LoginComponent  {
   //       }
   //     });
   // }
-
   // get username() {
   //   return this.formularioLogin.get('username');
   // }
-
   // get password() {
   //   return this.formularioLogin.get('password');
   // }

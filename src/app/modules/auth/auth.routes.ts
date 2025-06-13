@@ -16,7 +16,6 @@ export default [
   },
   {
     path: 'reset-password',
-    loadComponent: () =>
-      import('./components/recover-password/recover-password.component'),
+    loadComponent: () => import('./components/recover-password/recover-password.component'),
   },
 ] as Routes;

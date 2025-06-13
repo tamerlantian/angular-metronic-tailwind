@@ -3,15 +3,15 @@
   [className]="clases"
   [ngClass]="{
     'btn-primary': color === 'primary',
-    'btn-danger': color === 'danger'
+    'btn-danger': color === 'danger',
   }"
   class="btn"
   [type]="type"
   [disabled]="estaCargando || estaDeshabilitado"
 >
   @if (!estaCargando) {
-  {{ texto }}
+    {{ texto }}
   } @else {
-  {{ textoCargando }}
+    {{ textoCargando }}
   }
 </button>

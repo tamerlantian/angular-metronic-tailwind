@@ -85,7 +85,7 @@ export class InputComponent implements ControlValueAccessor {
   // Obtiene los mensajes de error
   getErrors(): string[] {
     if (!this.errors) return [];
-    return Object.keys(this.errors).map((key) => this.errors[key] || 'Error desconocido');
+    return Object.keys(this.errors).map(key => this.errors[key] || 'Error desconocido');
   }
 
   // Método para actualizar el estado de validación
