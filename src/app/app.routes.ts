@@ -7,7 +7,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: () => import('./pages/pages.routes'),
+    loadChildren: () => import('./layouts/pages.routes'),
   },
   { path: '**', redirectTo: 'auth' },
 ];
