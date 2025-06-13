@@ -1,13 +1,11 @@
-import type {
-  HttpErrorResponse,
-  HttpInterceptorFn,
-} from '@angular/common/http';
+import type { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { ErrorHandlerService } from './http-error.service';
+import { AlertaService } from '@app/common/services/alerta.service';
 
 export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
-  // const alertService = inject(AlertaService);
+  const alertService = inject(AlertaService);
   // const authService = inject(AuthService);
   const errorHandlerService = inject(ErrorHandlerService);
 
@@ -22,7 +20,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
 
       // Show an alert for non-asset related errors
       if (!error.url?.includes('asset')) {
-        // alertService.mensajeError(`Error ${codigo || statusCode}`, mensaje);
+        alertService.mostrarError(`Error ${codigo || statusCode}`, mensaje);
       }
 
       return throwError(() => error.error);

@@ -1,43 +1,36 @@
-import {
-  HttpContext,
-  HttpContextToken,
-  HttpHandlerFn,
-  type HttpInterceptorFn,
-} from '@angular/common/http';
+import { HttpHandlerFn, HttpRequest, type HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { TokenService } from '../../modules/auth/services/token.service';
 
-const requiereToken = new HttpContextToken<boolean>(() => true);
-
-export function noRequiereToken() {
-  return new HttpContext().set(requiereToken, false);
-}
-
+/**
+ * Interceptor que añade el token de autenticación a las peticiones HTTP si existe
+ */
 export const tokenInterceptor: HttpInterceptorFn = (request, next: HttpHandlerFn) => {
-  const authService = inject(TokenService);
-  if (request.context.get(requiereToken)) {
-    //validar vigencia
-    const tokenValido = authService.validarToken();
-    if (tokenValido) {
-      return adicionarToken(request, next);
-    } else {
-      // return this.actualizarTokenPorVencimiento(request, next);
-    }
+  const tokenService = inject(TokenService);
+
+  // Verificar si hay un token válido
+  if (tokenService.validarToken()) {
+    // Si hay token válido, lo añadimos a la petición
+    return next(agregarTokenARequest(request, tokenService));
   }
 
+  // Si no hay token o no es válido, dejamos pasar la petición sin modificar
   return next(request);
 };
 
-const adicionarToken = (request: any, next: HttpHandlerFn) => {
-  const authService = inject(TokenService);
-  if (request.context.get(requiereToken)) {
-    const token = authService.obtener();
-    if (token) {
-      const authReq = request.clone({
-        headers: request.headers.set('Authorization', `Bearer ${token}`),
-      });
-      return next(authReq);
-    }
-  }
-  return next(request);
-};
+/**
+ * Función auxiliar para añadir el token a una petición HTTP
+ * @param request Petición HTTP original
+ * @param tokenService Servicio de token
+ * @returns Nueva petición HTTP con el token añadido
+ */
+function agregarTokenARequest(
+  request: HttpRequest<unknown>,
+  tokenService: TokenService
+): HttpRequest<unknown> {
+  const token = tokenService.obtener();
+
+  return request.clone({
+    headers: request.headers.set('Authorization', `Bearer ${token}`),
+  });
+}
