@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { EffectsApp, StoreApp } from './redux';
 import { tokenInterceptor } from './common/interceptors/token.interceptor';
-import { httpErrorInterceptor } from './common/interceptors/http-error.interceptor';
+import { httpErrorInterceptor } from './common/interceptors/error-handler/http-error.interceptor';
 
 registerLocaleData(en);
 
