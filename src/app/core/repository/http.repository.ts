@@ -12,7 +12,7 @@ export class HttpRepository {
   private baseUrl: string;
 
   constructor() {
-    this.subdominioService.getSubdominioUrl().subscribe((urlApi) => {
+    this.subdominioService.getSubdominioUrl().subscribe(urlApi => {
       this.baseUrl = urlApi;
     });
   }

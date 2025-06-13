@@ -16,10 +16,7 @@ export class GeneralRepository {
    * @param queryParams Parámetros de consulta opcionales
    * @returns Observable con la respuesta tipada
    */
-  get<T>(
-    endpoint: string,
-    queryParams: QueryParams = {}
-  ): Observable<RespuestaApi<T>> {
+  get<T>(endpoint: string, queryParams: QueryParams = {}): Observable<RespuestaApi<T>> {
     const params = this.buildHttpParams(queryParams);
     return this.httpRepository.get<RespuestaApi<T>>(endpoint, params);
   }
