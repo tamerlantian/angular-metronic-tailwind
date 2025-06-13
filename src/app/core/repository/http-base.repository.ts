@@ -12,7 +12,7 @@ export class HttpBaseRepository {
 
   constructor() {
     // Usa directamente la URL base sin subdominio
-    this.baseUrl = environment.api_base;
+    this.baseUrl = environment.apiBase;
   }
 
   // Método GET para listas

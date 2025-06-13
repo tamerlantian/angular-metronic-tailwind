@@ -53,11 +53,17 @@
         <span class="checkbox-label"> Recuerdame </span>
       </label>
 
-      <div class="w-full">
-        <button class="btn btn-primary w-full justify-center" (click)="login()">
-          Iniciar sesión
-        </button>
-      </div>
+      <app-advanced-button
+        [text]="'Iniciar sesión'"
+        [loadingText]="'Iniciando sesión...'"
+        [type]="'button'"
+        [color]="'primary'"
+        [size]="'md'"
+        [classes]="'btn btn-primary w-full text-center justify-center'"
+        [isLoading]="isLoading$ | async"
+        [isDisabled]="!formularioLogin.valid"
+        (buttonClick)="login()"
+      ></app-advanced-button>
     </form>
   </div>
 </div>

@@ -5,16 +5,20 @@ import { LabelComponent } from '@app/common/components/ui/form/label/label.compo
 import { Store } from '@ngrx/store';
 import { loginRequest } from '../../store/actions/login.action';
 import { RouterLink } from '@angular/router';
+import { AdvancedButtonComponent } from '@app/common/components/ui/advanced-button/advanced-button.component';
+import { selectIsLoading } from '../../store/selectors/auth.selector';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    // CommonModule,
     RouterLink,
     ReactiveFormsModule,
     InputComponent,
     LabelComponent,
+    AdvancedButtonComponent,
+    AsyncPipe,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -22,6 +26,7 @@ import { RouterLink } from '@angular/router';
 })
 export default class LoginComponent {
   private store = inject(Store);
+  public isLoading$ = this.store.select(selectIsLoading);
 
   public formularioLogin = new FormGroup({
     username: new FormControl('', [Validators.email, Validators.required]),

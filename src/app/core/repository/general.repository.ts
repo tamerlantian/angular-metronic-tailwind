@@ -83,13 +83,13 @@ export class GeneralRepository {
    */
   private buildHttpParams(queryParams: QueryParams): HttpParams {
     let params = new HttpParams();
-    
+
     Object.keys(queryParams).forEach(key => {
       if (queryParams[key] !== null && queryParams[key] !== undefined) {
         params = params.append(key, queryParams[key].toString());
       }
     });
-    
+
     return params;
   }
 

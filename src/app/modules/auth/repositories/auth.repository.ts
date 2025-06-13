@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpBaseRepository } from '@app/core/repository/http-base.repository';
 import { Login } from '../interfaces/login.interface';
 import { LoginResponse } from '../interfaces/auth.interface';
+import { Register } from '../interfaces/register.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,13 +14,9 @@ export class AuthRepository {
     return this.httpBase.post<LoginResponse>('seguridad/login/', credenciales);
   }
 
-  // registro(parametros: any) {
-  //   return this.http.post<any>(
-  //     `${environment.url_api}/seguridad/usuario/`,
-  //     parametros,
-  //     { context: noRequiereToken() }
-  //   );
-  // }
+  register(usuario: Register) {
+    return this.httpBase.post<any>('seguridad/usuario/', usuario);
+  }
 
   // logout() {
   //   localStorage.clear();

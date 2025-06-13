@@ -1,17 +1,45 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InputComponent } from '../../../../common/components/ui/form/input/input.component';
+import { AuthRepository } from '../../repositories/auth.repository';
+import { AdvancedButtonComponent } from '../../../../common/components/ui/advanced-button/advanced-button.component';
+import { finalize } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, InputComponent, AdvancedButtonComponent, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class RegisterComponent {
-  // private authService = inject(AuthService);
+  private authService = inject(AuthRepository);
+
+  public registrando = signal<boolean>(false);
+  public formularioRegister = new FormGroup({
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+    confirmarContrasena: new FormControl('', Validators.required),
+    terminoCondicion: new FormControl(false, Validators.required),
+  });
+
+  register() {
+    this.registrando.set(true);
+    this.authService
+      .register({
+        username: this.formularioRegister.get('username')?.value,
+        password: this.formularioRegister.get('password')?.value,
+        confirmarContrasena: this.formularioRegister.get('confirmarContrasena')?.value,
+        terminoCondicion: this.formularioRegister.get('terminoCondicion')?.value,
+      })
+      .pipe(finalize(() => this.registrando.set(false)))
+      .subscribe(res => {
+        console.log(res);
+      });
+  }
   // private _router = inject(Router);
   // public registrando$ = new BehaviorSubject<boolean>(false);
   // turnstileToken: string = '';
