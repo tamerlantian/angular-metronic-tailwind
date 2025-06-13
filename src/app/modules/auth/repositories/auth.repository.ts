@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpBaseRepository } from '@app/core/repository/http-base.repository';
 import { Login } from '../interfaces/login.interface';
 import { LoginResponse } from '../interfaces/auth.interface';
-import { Register } from '../interfaces/register.interface';
+import { Register, RegisterResponse } from '../interfaces/register.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class AuthRepository {
   }
 
   register(usuario: Register) {
-    return this.httpBase.post<any>('seguridad/usuario/', usuario);
+    return this.httpBase.post<RegisterResponse>('seguridad/usuario/', usuario);
   }
 
   // logout() {
