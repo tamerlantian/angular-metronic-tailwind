@@ -6,6 +6,7 @@ import { AdvancedButtonComponent } from '@app/common/components/ui/advanced-butt
 import { InputComponent } from '@app/common/components/ui/form/input/input.component';
 import { finalize } from 'rxjs';
 import { Router } from '@angular/router';
+import { AlertaService } from '@app/common/services/alerta.service';
 
 @Component({
   selector: 'app-recover-password',
@@ -18,6 +19,7 @@ import { Router } from '@angular/router';
 export default class RecoverPasswordComponent {
   private authRepository = inject(AuthRepository);
   private router = inject(Router);
+  private alerta = inject(AlertaService);
 
   public isLoading = signal<boolean>(false);
   public formulario = new FormGroup({
@@ -31,10 +33,10 @@ export default class RecoverPasswordComponent {
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe(res => {
         if (res.verificacion) {
-          // this.alerta.mensajaExitoso(
-          //   'Hemos enviado un enlace al correo electrónico para restablecer tu contraseña .',
-          //   'Solicitud exitosa.'
-          // );
+          this.alerta.mostrarExito(
+            'Hemos enviado un enlace al correo electrónico para restablecer tu contraseña.',
+            'Solicitud exitosa.'
+          );
           this.router.navigate(['auth/login']);
         }
       });
