@@ -8,7 +8,7 @@ import { LOCALSTORAGE_KEYS } from '@app/core/constants/localstorage-keys.constan
   providedIn: 'root',
 })
 export class SubdominioService {
-  private URL_API = environment.apiBase;
+  private API_SUBDOMAIN = environment.apiSubdomain;
   private cookieService = inject(CookieService);
 
   constructor() {}
@@ -19,7 +19,7 @@ export class SubdominioService {
    */
   getSubdominioUrl(): Observable<string> {
     const subdominio = this.cookieService.get(LOCALSTORAGE_KEYS.SUBDOMAIN);
-    return of(`${this.URL_API.replace('subdominio', subdominio || '')}`);
+    return of(`${this.API_SUBDOMAIN.replace('subdominio', subdominio || '')}`);
   }
 
   /**
