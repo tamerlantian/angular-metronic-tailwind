@@ -40,10 +40,12 @@
       </div>
     </div>
     <app-menu
+      [titulo]="'John doe'"
+      [subtitulo]="'description'"
       [menuItems]="menuItems"
-      [nombre]="(usuario$ | async)?.nombre"
-      [imagen]="getUserImageUrl() | async"
+      [imagen]="''"
     ></app-menu>
+    `
   </div>
   <!-- end: container -->
 </ng-container>
