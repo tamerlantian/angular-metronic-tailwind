@@ -15,6 +15,7 @@ Boilerplate oficial de Metronic 9 para Angular 17 con Tailwind CSS. Este templat
 - **Angular 17**: Framework progresivo con las últimas características como Signals y SSR.
 - **Tailwind CSS 3.4**: Integración completa con utilidades personalizadas para Metronic.
 - **NgRx 17**: Gestión de estado reactivo con Store, Effects y DevTools.
+- **Cloudflare Turnstile**: Protección contra bots y spam en formularios de autenticación.
 
 ### Componentes Metronic
 - **Layouts múltiples**: Incluye varios diseños de página predefinidos (default, dark, light).
@@ -85,9 +86,38 @@ Configura el archivo `environment.ts` dentro de la carpeta `/environments`:
 export const environment = {
   production: false,
   apiUrl: 'https://api.example.com',
+  turnstileSiteKey: 'TU_CLAVE_DE_SITIO_TURNSTILE',  // Clave de sitio de Cloudflare Turnstile
   // Otras variables de configuración
 };
 ```
+
+## Seguridad con Cloudflare Turnstile
+
+Este boilerplate incluye la integración de Cloudflare Turnstile, una alternativa moderna a CAPTCHA para proteger tus formularios contra bots y spam.
+
+### Características de la implementación
+
+- **Integración con Angular**: Utiliza el paquete `ngx-turnstile` para una fácil implementación.
+- **Activación condicional**: Solo se activa en entornos de producción.
+- **Validación automática**: Integrado con los formularios reactivos de Angular.
+- **Experiencia de usuario mejorada**: Menos intrusivo que los CAPTCHAs tradicionales.
+
+### Configuración
+
+1. Obtén tus claves de sitio y secreta en el [Panel de Cloudflare](https://dash.cloudflare.com/?to=/:account/turnstile)
+
+2. Configura la clave de sitio en tu archivo `environment.ts`:
+   ```typescript
+   turnstileSiteKey: 'TU_CLAVE_DE_SITIO_TURNSTILE'
+   ```
+
+3. El componente ya está implementado en los formularios de autenticación:
+   ```html
+   <ngx-turnstile
+     [siteKey]="turnstileToken"
+     (resolved)="onTurnstileSuccess($event)"
+   ></ngx-turnstile>
+   ```
 
 ## Scripts disponibles
 
